@@ -195,8 +195,8 @@ We will perform the following steps for data preprocessing, [*Exploratory Data A
 
 ### Convolutional Neural Network (CNN) Model Results Discussion
 
-CNN Model's Accuracy on test dataset: 99%
-CNN Model's Accuracy on sample test dataset of 12 **NEW** videos: 83.22%
+ - CNN Model's Accuracy on test dataset: 99%
+ - CNN Model's Accuracy on sample test dataset of 12 **NEW** videos: 83.22%
 
 Based on the preliminary results from the test dataset, an accuracy of 99% is achieved for the CNN model developed. However, in the sample test dataset created using 12 **NEW** videos that were not part of the initial Train / Validation / Test datasets, an accuracy of **83.22%** is achieved instead. This implies that the Model may have overfitted onto the datasets it was trained on.
 
@@ -211,9 +211,9 @@ Additional limitations include and are not limited to the following:
  - This is due to change in the image quality of real videos and deep fakes following the continuous advances in sensor technology and the deep fake generation techniques.
   - Systemic bias of AI models against underrepresented grouped data, as well as many deep fake detectors being sensitive to skin tones and other face features, may also be contributory factors to any model performance degradations.
 - This CNN model may also be unable to detect fake videos generated using other techniques or algorithms that differ from the following 3 video manipulations applied to the TMC dataset:
- - Deepfakes-256/512
- - FSGAN
- - FaceSwap
+  - Deepfakes-256/512
+  - FSGAN
+  - FaceSwap
 - Each video in this TMC dataset generally contains 2 watermarks, 1 at the bottom left corner of the video and another just to the bottom right of the face. As highlighted by AI Singapore, this is not regarded as perturbation but may still have an impact on some fake detectors, including this one.
 - If changes are made to the preprocessing steps, model performance may also differ.
 
