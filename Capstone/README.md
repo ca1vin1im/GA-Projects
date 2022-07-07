@@ -33,9 +33,9 @@ However, deep fakes garnered widespread attention for their uses in creating chi
 
 In Singapore, [*AI Singapore*](https://aisingapore.org/) launched a five-month long "[*Trusted Media Challenge*](https://www.channelnewsasia.com/singapore/ai-singapore-launches-competition-design-solutions-detecting-fake-media-2017431)" on 15 July 2021 with the Trusted Media Challenge (TMC) dataset for contestants to design solutions that will help detect fake media.
 
-During a presentation at the recently concluded Singapore Defence Technology Summit on 14 Oct 2021, Associate Professor Hao Li, founder of Pinscreen, a start-up that develops photorealistic AI-driven virtual avatars, opined that the most nefarious is how deepfakes could disrupt national security, by spreading misinformation and influencing public opinion ([*Source*](https://www.channelnewsasia.com/singapore/deepfakes-ai-security-threat-face-swapping-2252161)). Assoc Prof Li also taught computer science at the University of Southern California.
+During a presentation at the recently concluded Singapore Defence Technology Summit on 14 Oct 2021, Associate Professor Hao Li, founder of Pinscreen, a start-up that develops photorealistic AI-driven virtual avatars, opined that the most nefarious is how deep fakes could disrupt national security, by spreading misinformation and influencing public opinion ([*Source*](https://www.channelnewsasia.com/singapore/deepfakes-ai-security-threat-face-swapping-2252161)). Assoc Prof Li also taught computer science at the University of Southern California.
 
-In case we think that most of us are literally just ordinary persons who would be unlikely targets of potential deep fakes exploits, the recent case of a Singaporean man's face ending up in deepfake porn on 21 Apr 2022 after he refuses to pay hacker SGD 8,000 hits really close to home! ([*Source*](https://news.yahoo.com/singaporean-mans-face-ends-deepfake-171743924.html))
+In case we think that most of us are literally just ordinary persons who would be unlikely targets of potential deep fakes exploits, the recent case of a Singaporean man's face ending up in deep fake porn on 21 Apr 2022 after he refuses to pay hacker SGD 8,000 hits really close to home! ([*Source*](https://news.yahoo.com/singaporean-mans-face-ends-deepfake-171743924.html))
 
 All these inspired me to apply what I have learnt to establish a functional process workflow and develop a Deep Fake Detector potentially capable of discerning deep fake videos from real ones.
 
@@ -141,7 +141,7 @@ We will perform the following steps for data preprocessing, [*Exploratory Data A
 1. Relabel all 6,943 videos' filenames
 2. Capture frames from each video in PNG format & scale all images to 1080 pixels
 
-[ Notebook: **B -- Convert Video to Images** ]
+[ Notebook: **B -- Obtain Videos Parameters & Move Video Subset** ]
 
 3. Obtain additional videos' parameters
  - frame count
@@ -167,7 +167,7 @@ We will perform the following steps for data preprocessing, [*Exploratory Data A
  - Compare Standard Deviation Real Image & Standard Deviation Fake Image
  - Compare contrast between Standard Deviation Images
 
-[ Notebook: **F -- Train Model** ]
+[ Notebook: **F -- Train Model** ] (_This Notebook runs in **Google Colab** instead_)
 
 8. Train the chosen CNN classifier model
  - Mount Google Drive
@@ -188,58 +188,60 @@ We will perform the following steps for data preprocessing, [*Exploratory Data A
  - Generate predictions with best model
  - Generate corresponding Confusion Matrix, Receiver Operating Characteristic (ROC) and Classification Report
  - Apply Best Model to predict faces extracted from 12 new TMC dataset videos
-9. Limitations, Next Steps, Recommendations, and Conclusion
-
+9. Limitations, Future Work, Recommendations, and Conclusion
 
 ---
 
 ### Convolutional Neural Network (CNN) Model Results Discussion
 
  - CNN Model's Accuracy on test dataset: 99%
- - CNN Model's Accuracy on sample test dataset of 12 **NEW** videos: 83.22%
+ - CNN Model's Accuracy on sample test dataset of 12 **NEW** videos: 80.76%
 
-Based on the preliminary results from the test dataset, an accuracy of 99% is achieved for the CNN model developed. However, in the sample test dataset created using 12 **NEW** videos that were not part of the initial Train / Validation / Test datasets, an accuracy of **83.22%** is achieved instead. This implies that the Model may have overfitted onto the datasets it was trained on.
+Based on the preliminary results from the test dataset, an accuracy of **99%** is achieved for the CNN model developed. However, in this sample test dataset created using 12 **NEW** videos that were not part of the initial Train / Validation / Test datasets, an accuracy of **80.76%** is achieved instead. This implies that the Model may have overfitted onto the datasets it was trained on.
 
-The **best_model.h5** file generated is available [*here*](https://drive.google.com/file/d/1-CFlMSsHpv2quy-xWeGPt2KxyUqDb8Yj/view?usp=sharing).
+The **best_model.h5** file generated is available [*here*](https://drive.google.com/file/d/1CzSyXecgzbUfDajbjYTspTPJteVpChm-/view?usp=sharing).
 
 ### Limitations
 
 As highlighted in the Project Scope above, a subset of the Trusted Media Challenge (TMC) dataset released by [*AI Singapore*](https://aisingapore.org/) is used to create a [*Convolutional Neural Network (CNN)*](https://en.wikipedia.org/wiki/Convolutional_neural_network) for potential detection of [*deepfake*](https://en.wikipedia.org/wiki/Deepfake) videos based on the **video component only** (i.e. **Type-1** and **Type-2** fake videos **only**). Thus, detection of Type-3 and Type-4 fake videos is **not** within this project's scope, and will be part of the list of limitations of this CNN model developed.
 
 Additional limitations include and are not limited to the following:
+- This CNN model may also be unable to detect fake videos generated using other techniques or algorithms that differ from the following 3 video manipulations applied to the TMC dataset:
+ - Deepfakes-256/512
+ - FSGAN
+ - FaceSwap
 - Potential degradation of model performance across datasets different from this TMC dataset due to **domain shift**, i.e. the data distribution change between the training and testing set.
  - This is due to change in the image quality of real videos and deep fakes following the continuous advances in sensor technology and the deep fake generation techniques.
   - Systemic bias of AI models against underrepresented grouped data, as well as many deep fake detectors being sensitive to skin tones and other face features, may also be contributory factors to any model performance degradations.
-- This CNN model may also be unable to detect fake videos generated using other techniques or algorithms that differ from the following 3 video manipulations applied to the TMC dataset:
-  - Deepfakes-256/512
-  - FSGAN
-  - FaceSwap
+  - If changes are made to the preprocessing steps, model performance may also differ.
 - Each video in this TMC dataset generally contains 2 watermarks, 1 at the bottom left corner of the video and another just to the bottom right of the face. As highlighted by AI Singapore, this is not regarded as perturbation but may still have an impact on some fake detectors, including this one.
-- If changes are made to the preprocessing steps, model performance may also differ.
+- Accuracy of Multi-task Cascaded Convolutional Networks (MTCNN) used in step 5 of project workflow needs to be fine tuned.
+- Inconsistent detection across frames on same video.
+- Difficulty and/or inability to detect some side profiles and/or in poor lighting.
 
-### Next Steps
+### Future Work
 
 Since the preliminary results produced by this CNN model appear promising, this warrants further exploratory next steps that include and are not limited to the following:
- 1. Explore ways for potentially deploying the CNN Model as a minimum viable product (MVP), while continually refining it and eventually including additional related detection modules to improve its robustness. 
- 2. Extend the training to the full set of Type-1 and Type-2 videos
- 3. Examine the impact of converting merely the first 5 frames of each video to image in step 2 of the process workflow detailed above, as opposed to converting the whole video currently.
+ 1. Explore ways for potentially deploying the CNN Model as a minimum viable product (MVP), while continually refining it and eventually including additional related detection modules to improve its robustness.
+ 2. Extend the training to the full set of Type-1 and Type-2 videos.
+ 3. Explore real time detection.
  4. Examine the impact of scaling all images converted from videos in step 2 of process workflow detailed above to say 360 pixels, as opposed to scaling to 1080 pixels currently.
  5. Explore using other pretrained models such as VGGnet, InceptionV3, and Resnet and compared performance against that produced using EfficientNetB7.
- 6. Explore the design of an additional model such as one that converts the audio components into say Mel Spectrograms for training to potentially detects deep fake audios from real audios in these TMC videos.
+ 6. Explore the design of an additional model such as one that converts the audio components into say Mel Spectrograms for training to potentially detect deep fake audios from real audios in these TMC videos.
  7. Explore the design of yet an additional model such as a lip-sync detector that potentially detects Type-4 deep fakes videos, whereby both the videos and audios are real but the speech content does not match the mouth movement in the videos i.e. the video footage from one real video is combined with the audio segment from another real video to create a new medium.
  8. Explore training the (combined) deep fake detection module(s) with other datasets to improve its robustness.
 
 ### Recommendations
 
-In spite of the limitations highlighted above, since preliminary results from the test dataset and the subsequent sample test dataset of 12 **NEW** videos that were not part of the initial Train / Validation / Test datasets yielded accuracies of **99%** and **83.22%** respectively, this CNN model serves as a good starting point for anyone who is keen to potentially:
+In spite of the limitations highlighted above, since preliminary results from the test dataset and the subsequent sample test dataset of 12 **NEW** videos that were not part of the initial Train / Validation / Test datasets yielded accuracies of **99%** and **80.76%** respectively, this CNN model serves as a good starting point for anyone who is keen to potentially:
+ - deploy the model for deep fakes video detection based on the video component only (i.e. Type-1 and Type-2 fake videos only); and/or
  - further improve the model's accuracy; and/or
  - enhance its capabilities with additional detection modules; and/or
- - train the model with other relevant datasets; and/or
- - deploy the model for deep fakes video detection based on the video component only (i.e. Type-1 and Type-2 fake videos only).
+ - train the model with other relevant datasets.
 
 ### Conclusion
 
-In conclusion, I established a functional process workflow and developed a **Convolutional Neural Network (CNN)** with a **dataset focused on Asian content and ethnicities** that potentially **detects and correctly identifies deep fakes videos (excluding their audio component)** with an **accuracy of 83.22%** as my humble contribution towards the ongoing efforts of the Data Science community, industries, and governments alike, in combating deep fakes exploits and applying Artificial Intelligence (AI) technologies towards serving the greater good of the general public, thereby meeting the objectives set out by the Problem Statement.
+In conclusion, I established a functional process workflow and developed a **Convolutional Neural Network (CNN)** with a **dataset focused on Asian content and ethnicities** that potentially **detects and correctly identifies deep fakes videos (excluding their audio component)** with an **accuracy of 80.76%** as my humble contribution towards the ongoing efforts of the Data Science community, industries, and governments alike, in combating deep fakes exploits and applying Artificial Intelligence (AI) technologies towards serving the greater good of the general public, thereby meeting the objectives set out by the Problem Statement.
 
 ## Acknowledgements
 
