@@ -143,12 +143,12 @@ We will perform the following steps for data preprocessing, [*Exploratory Data A
 
 [ Notebook: **B -- Obtain Videos Parameters & Move Video Subset** ]
 
-3. Obtain additional videos' parameters
+3. Obtain additional videos' parameters [**_Optional_**]
  - frame count
  - fps
  - duration (_derived_)
  - number of images that will be extracted per video (_derived_)
-4. Move all 2,080 initial subset of videos to new folder
+4. Move all 2,080 initial subset of videos to new folder [**_Optional_**]
 
 [ Notebook: **C -- Crop Faces With MTCNN** ]
 
@@ -207,13 +207,13 @@ As highlighted in the Project Scope above, a subset of the Trusted Media Challen
 
 Additional limitations include and are not limited to the following:
 - This CNN model may also be unable to detect fake videos generated using other techniques or algorithms that differ from the following 3 video manipulations applied to the TMC dataset:
- - Deepfakes-256/512
- - FSGAN
- - FaceSwap
+   - Deepfakes-256/512
+   - FSGAN
+   - FaceSwap
 - Potential degradation of model performance across datasets different from this TMC dataset due to **domain shift**, i.e. the data distribution change between the training and testing set.
- - This is due to change in the image quality of real videos and deep fakes following the continuous advances in sensor technology and the deep fake generation techniques.
-  - Systemic bias of AI models against underrepresented grouped data, as well as many deep fake detectors being sensitive to skin tones and other face features, may also be contributory factors to any model performance degradations.
-  - If changes are made to the preprocessing steps, model performance may also differ.
+   - This is due to change in the image quality of real videos and deep fakes following the continuous advances in sensor technology and the deep fake generation techniques.
+   - Systemic bias of AI models against underrepresented grouped data, as well as many deep fake detectors being sensitive to skin tones and other face features, may also be contributory factors to any model performance degradations.
+   - If changes are made to the preprocessing steps, model performance may also differ.
 - Each video in this TMC dataset generally contains 2 watermarks, 1 at the bottom left corner of the video and another just to the bottom right of the face. As highlighted by AI Singapore, this is not regarded as perturbation but may still have an impact on some fake detectors, including this one.
 - Accuracy of Multi-task Cascaded Convolutional Networks (MTCNN) used in step 5 of project workflow needs to be fine tuned.
 - Inconsistent detection across frames on same video.
